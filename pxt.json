@@ -1,0 +1,56 @@
+{
+    "name": "save the galaxy a mod11",
+    "description": "stage10",
+    "dependencies": {
+        "device": "*",
+        "arcade-background-scroll": "github:microsoft/arcade-background-scroll",
+        "galaxy-imgs": "github:kiki-lee/galaxy-imgs#v0.0.9",
+        "feather": "*",
+        "light": "*",
+        "Timers": "github:microsoft/arcade-timers#v1.1.0",
+        "arcade-text": "github:microsoft/arcade-text#v1.3.0",
+        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.1.0"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json",
+        "tutorial.custom.ts",
+        "images.g.jres",
+        "images.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v1.12.41",
+        "tag": "v1.12.41",
+        "commits": "https://github.com/microsoft/pxt-arcade/commits/58673437825ecb93a220c8f58a6f9bb5693896ba",
+        "target": "4.0.14",
+        "pxt": "8.5.52",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj",
+    "palette": [
+        "#000000",
+        "#FFFFFF",
+        "#FF92BA",
+        "#993648",
+        "#FF8135",
+        "#FFF76B",
+        "#0BA6B1",
+        "#FFB5AF",
+        "#003FAD",
+        "#87F2FF",
+        "#8E2EC4",
+        "#A4839F",
+        "#5C406c",
+        "#C0C0C0",
+        "#180A42",
+        "#001E57"
+    ]
+}
