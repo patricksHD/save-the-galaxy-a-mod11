@@ -269,7 +269,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, ot
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     sprites.destroyAllSpritesOfKind(SpriteKind.Satellite)
-    game.showLongText("Roo is hit by Meteoroid! Come Back!", DialogLayout.Bottom)
+    game.showLongText("Come Back! Roo is hit by Meteoroid!", DialogLayout.Bottom)
     // Make small roo instantly rush back to ship
     otherSprite.follow(myShip, 250)
     myRock.setVelocity(0, 0)
@@ -282,18 +282,6 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSp
     sprite.destroy(effects.disintegrate, 100)
     info.changeLifeBy(-1)
 })
-info.onLifeZero(function () {
-    if (info.score() == accessCode) {
-        game.setGameOverMessage(true, "Access Granted")
-        game.setGameOverPlayable(true, music.melodyPlayable(music.magicWand), false)
-        light.showAnimation(light.rainbowAnimation, 500)
-        pins.D5.servoWrite(openBox)
-        game.gameOver(true)
-    } else {
-        game.setGameOverMessage(false, "GAME OVER!")
-        game.gameOver(false)
-    }
-})
 info.onScore(200, function () {
     game.gameOver(true)
 })
@@ -302,14 +290,14 @@ let myRock: Sprite = null
 let hasKangaroo = false
 let projectile: Sprite = null
 let myShip: Sprite = null
-let openBox = 0
-let accessCode = 0
 let hasShownMission = false
 hasShownMission = false
-accessCode = 13
+let accessCode = 13
 let closeBox = 45
-openBox = 120
-pins.D5.servoWrite(closeBox)
+let openBox = 120
+let lineOverlay = sprites.create(image.create(160, 120), SpriteKind.Player)
+// Optional: prevents collisions
+lineOverlay.setFlag(SpriteFlag.Ghost, true)
 game.splash("Captain Roo's Mission")
 scene.setBackgroundImage(img`
     ccccccccccccceeeeeeeeeffffdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccddffffdeee9efeeeeeeeeeeeedeecddf
@@ -557,10 +545,10 @@ scene.setBackgroundImage(img`
     ccccfccccceeeeeeeccccdeddddffeffffffffffffffffffcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffccccccffeeeeeeeeeeeeeeef
     cccfccccccceeeeeccecfccccfffffffffffffffffccfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffcccdfffeeffeeeedeeddeeee
     `)
-game.splash("To Drive Away Evil Satellites! ")
-info.setLife(3)
 // background can scroll
 scroller.scrollBackgroundWithSpeed(0, 20)
+game.splash("To Drive Away Evil Satellites! ")
+info.setLife(3)
 myShip = sprites.create(img`
     .......99.......
     .......99.......
@@ -738,6 +726,16 @@ game.onUpdate(function () {
     } else if (controller.B.isPressed() && controller.left.isPressed()) {
         // Normal speed
         myShip.x += -2
+    }
+})
+// Replace your line-drawing "on game update" block with this:
+game.onUpdate(function () {
+    // 1. Clear the overlay sprite's canvas every frame (0 = transparent)
+    lineOverlay.image.fill(0)
+    // 2. Draw the tether line on the overlay sprite when active
+    if (hasKangaroo && projectile) {
+        // Color index (1 = white, change to 7 or another number if desired)
+        lineOverlay.image.drawLine(myShip.x, myShip.y, projectile.x, projectile.y, 1)
     }
 })
 game.onUpdateInterval(2000, function () {
